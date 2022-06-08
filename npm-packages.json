@@ -5,7 +5,7 @@
   "tailwindcss": "for tailwind support",
 
   "react": {
-    "react-haiku": "collection of useful hooks",
+    "react-use": "collection of useful hooks",
     "framer-motion": "animation library for React",
     "react-day-and-night-toggle": "beautiful toggle button for day and night mode",
     "react-stickynode": "make components sticky within the viewport",
