@@ -20,6 +20,10 @@
   "tailwind": {
     "tailwind-children": "apply tailwind classes directly to child elements"
   },
+  
+  "strapi": {
+    "strapi-generate-types": "generates types for Strapi data using graphql schema"
+  },
 
   "graphql": {
     "graphql": "graphql support",
