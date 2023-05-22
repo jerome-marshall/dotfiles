@@ -4,27 +4,21 @@ import mouse
  
 multiplier = 0.85  # increasing or decreasing this value will adjust the timing
 hotKey = ';'  # this will trigger the script to perform a speed flip
+hotKey2 = "'"
 RMB = "right"  # jump key
 right = "d"
 left = "a"
 airRollRight = "e"
 airRollLeft = "q"
  
-randomizerChange = 0.06  # how much the "randomizer" will change the delays
-randomizer = True  # starts on
+randomizerChange = 0.00  # how much the "randomizer" will change the delays
+randomizer = False  # starts off
 randomizerPlus = 0
  
  
 def PrintBanner(endTime=0.0):
     print(
-        f"""\n\n\n\n\n
- ██████╗ █████╗  █████╗ ██████╗ ███████╗  ██╗██╗ █████╗  █████╗ 
-██╔════╝██╔══██╗██╔══██╗██╔══██╗██╔════╝ ██╔╝██║██╔══██╗██╔══██╗
-╚█████╗ ███████║███████║██║  ██║██████╗ ██╔╝ ██║╚██████║╚██████║
- ╚═══██╗██╔══██║██╔══██║██║  ██║╚════██╗███████║ ╚═══██║ ╚═══██║
-██████╔╝██║  ██║██║  ██║██████╔╝██████╔╝╚════██║ █████╔╝ █████╔╝
-╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═════╝      ╚═╝ ╚════╝  ╚════╝ 
-----------------------------------------------------------------
+        f"""
 (">": Increase, "<": Decrease)  Delays multiplier:     {multiplier}
 (Speed flip time)               Speed flip time:       {str(endTime)[0:5]}
 (Less sus toggle: "/")          "Randomizer":          {randomizer}
@@ -93,8 +87,8 @@ def UpdateI():
             Increase('False')
             i = 1
             randomizerPlus = 0
- 
- 
+
+
 def DoSpeedFlip(mainKey, airRollKey):
     UpdateI()
     start = time.time()
@@ -132,8 +126,84 @@ def DoSpeedFlip(mainKey, airRollKey):
  
     end = time.time() - start
     PrintBanner(endTime=end)
- 
- 
+
+def diagonalKickOff(type):
+    turnTime = 0.17
+
+    if type == "left":
+        keyboard.press('w')
+        time.sleep(0.4)
+        keyboard.press('a')
+        time.sleep(turnTime)
+        keyboard.release('a')
+        time.sleep(0.0)
+        DoSpeedFlip(right, airRollRight)
+        keyboard.release('w')
+        keyboard.press('d')
+        time.sleep(0.3)
+        keyboard.release('d')
+    elif type == "right":
+        keyboard.press('w')
+        time.sleep(0.4)
+        keyboard.press('d')
+        time.sleep(turnTime)
+        keyboard.release('d')
+        time.sleep(0.0)
+        DoSpeedFlip(left, airRollLeft)
+        keyboard.release('w')
+        keyboard.press('a')
+        time.sleep(0.3)
+        keyboard.release('a')
+
+def sideKickOff(type):
+    turnPressTime = 0.15
+    turnPressTime2 = 0.05
+    turnTime = 0.25
+    straightTime = 0.3
+
+    if type == "left":
+        keyboard.press('w')
+        time.sleep(straightTime)
+        keyboard.press('d')
+        time.sleep(turnPressTime)
+        keyboard.release('d')
+        time.sleep(turnTime)
+        keyboard.press('a')
+        time.sleep(turnPressTime2)
+        keyboard.release('a')
+        DoSpeedFlip(left, airRollLeft)
+        keyboard.release('w')
+        keyboard.press('a')
+        time.sleep(0.2)
+        keyboard.release('a')
+    elif type == "right":
+        keyboard.press('w')
+        time.sleep(straightTime)
+        keyboard.press('a')
+        time.sleep(turnPressTime)
+        keyboard.release('a')
+        time.sleep(turnTime)
+        keyboard.press('d')
+        time.sleep(turnPressTime2)
+        keyboard.release('d')        
+        DoSpeedFlip(right, airRollRight)
+        keyboard.release('w')
+        keyboard.press('d')
+        time.sleep(0.2)
+        keyboard.release('d')
+        
+def straightKickOff():
+    keyboard.press('w')
+    time.sleep(0.6)
+    keyboard.press('d')
+    time.sleep(0.1)
+    keyboard.release('d')
+    DoSpeedFlip(left, airRollLeft)
+    keyboard.press('a')
+    time.sleep(0.25)
+    keyboard.release('a')
+    time.sleep(0.2)
+
 def ManageSpeedFlip(x):
     if keyboard.is_pressed('d'):
         DoSpeedFlip(right, airRollRight)
@@ -141,7 +211,16 @@ def ManageSpeedFlip(x):
     elif keyboard.is_pressed('a'):
         DoSpeedFlip(left, airRollLeft)
         time.sleep(0.3)
- 
+
+def WallDash():
+   time1 = 0.01
+   for i in range(0, 15):
+       mouse.press(RMB)
+       time.sleep(time1)
+       mouse.release(RMB)
+       time.sleep(time1)
+    
+
  
 def ToggleRandomizer(x):
     global randomizer
@@ -161,5 +240,23 @@ keyboard.on_press_key("/", ToggleRandomizer)
  
 while True:
     time.sleep(0.005)
-    if keyboard.is_pressed(hotKey):
-        ManageSpeedFlip('x')
+    if keyboard.is_pressed(hotKey2):
+        DoSpeedFlip(right, airRollRight)
+        time.sleep(0.3)
+    elif keyboard.is_pressed(hotKey):
+        DoSpeedFlip(left, airRollLeft)
+        time.sleep(0.3)
+    if keyboard.is_pressed("8"):
+        diagonalKickOff("left")
+    if keyboard.is_pressed("9"):
+        diagonalKickOff("right")
+    if keyboard.is_pressed("5"):
+        sideKickOff("left")
+    if keyboard.is_pressed("6"):
+        sideKickOff("right")
+    if keyboard.is_pressed("+"):
+        straightKickOff()
+    # if keyboard.is_pressed("/"):
+    #     WallDash()
+
+    
