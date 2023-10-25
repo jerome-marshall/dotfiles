@@ -240,12 +240,12 @@ keyboard.on_press_key("/", ToggleRandomizer)
  
 while True:
     time.sleep(0.005)
-    if keyboard.is_pressed(hotKey2):
-        DoSpeedFlip(right, airRollRight)
-        time.sleep(0.3)
-    elif keyboard.is_pressed(hotKey):
-        DoSpeedFlip(left, airRollLeft)
-        time.sleep(0.3)
+    # if keyboard.is_pressed(hotKey2):
+        # DoSpeedFlip(right, airRollRight)
+        # time.sleep(0.3)
+    # elif keyboard.is_pressed(hotKey):
+        # DoSpeedFlip(left, airRollLeft)
+        # time.sleep(0.3)
     if keyboard.is_pressed("8"):
         diagonalKickOff("left")
     if keyboard.is_pressed("9"):
@@ -256,7 +256,7 @@ while True:
         sideKickOff("right")
     if keyboard.is_pressed("+"):
         straightKickOff()
-    # if keyboard.is_pressed("/"):
-    #     WallDash()
+    if keyboard.is_pressed("/"):
+        WallDash()
 
     
